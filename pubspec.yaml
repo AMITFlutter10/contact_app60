@@ -37,6 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
+  sizer: ^2.0.15
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.5
+  firebase_auth: ^4.16.0
+  country_code_picker: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -89,4 +94,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/custom-font

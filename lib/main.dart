@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:contact_app60/router/app_route.dart';
+import 'package:contact_app60/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
+import 'package:sizer/sizer.dart';
 
 void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
  await Firebase.initializeApp(
    options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -19,109 +23,134 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return Sizer(
+      builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+       // home: const LoginPage(),
+       //  routes: {
+       //    "login" : (context)=> const LoginPage(),
+       //     "register" : (context)=> const RegisterPage()
+       //  },
+        onGenerateRoute: onGenerateRouter,
+        initialRoute: AppRoute.loginScreen,
+      );
+      }
+      );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-   MyHomePage({super.key, required this.title});
 
 
-  final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  final fireStore = FirebaseFirestore.instance;
- // task
- //  object vs instance
-  sendData() {
-    fireStore.collection("note").add({
-      "message": massageController.text,
-      "time": timeController.text,
-    }).then((value) {
-      print(value);
-    });
-  }
-
-  // sendCollection() {
-  //   fireStore.collection("TextNote").add({
-  //     "message": massageController.text,
-  //     "time": timeController.text,
-  //   }).then((value) {
-  //     print(value);
-  //   });
-  // }
-
-  getData() {
-    fireStore.collection("note").get();
-  }
-
-
-  var massageController = TextEditingController();
-  var timeController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body:
-        Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                  controller: massageController,
-                  decoration: InputDecoration(
-                      hintText: "message",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      )
-                  )
-              ),
-             const   SizedBox(height: 10,),
-              TextFormField(
-                  controller: timeController,
-                  decoration: InputDecoration(
-                      hintText: "time",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      )
-                  )
-              ),
-              ElevatedButton(onPressed: () {
-                setState(() {
-                  sendData();
-                });
-              }, child: Text("Sent"))
-            ],
-          ),
-        )
-    );
-  }
-}
+//
+// class MyHomePage extends StatefulWidget {
+//    MyHomePage({super.key, required this.title});
+//
+//
+//   final String title;
+//
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+//
+// class _MyHomePageState extends State<MyHomePage> {
+//
+//   final fireStore = FirebaseFirestore.instance;
+//  // task
+//  //  object vs instance
+//   sendData() {
+//     fireStore.collection("note").add({
+//       "message": massageController.text,
+//       "time": timeController.text,
+//     }).then((value) {
+//       print(value);
+//     });
+//   }
+//
+//   // sendCollection() {
+//   //   fireStore.collection("TextNote").add({
+//   //     "message": massageController.text,
+//   //     "time": timeController.text,
+//   //   }).then((value) {
+//   //     print(value);
+//   //   });
+//   // }
+//
+//   // getData() {
+//   //   // fireStore.collection("note").get();
+//   //   fireStore.collection("note").snapshots();
+//   // }
+//
+//
+//   var massageController = TextEditingController();
+//   var timeController = TextEditingController();
+//
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Padding(
+//         padding: const EdgeInsets.all(18.0),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             TextFormField(
+//               controller:massageController ,
+//               decoration: InputDecoration(
+//                 hintText: "message",
+//                 labelText: "note"
+//               ),
+//
+//             ),
+//             SizedBox(height: 20,),
+//             TextFormField(
+//               controller: timeController,
+//               decoration: InputDecoration(
+//                   hintText: "time",
+//                   labelText: "Note Time"
+//               ),
+//
+//             ),
+//             SizedBox(height: 30,),
+//             ElevatedButton(onPressed: (){
+//               setState(() {
+//                 sendData();
+//               });
+//
+//             }, child: Text("Send")),
+//             Divider(height: 10,thickness: 2.0, color: Colors.red,),
+//
+//              StreamBuilder(
+//                  stream: fireStore.collection("note").snapshots(),
+//                  builder: (context, snapshot ) {
+//                    return snapshot.hasData ?
+//                    snapshot.data!.docs.length != 0 ?
+//                    ListView.builder(
+//                        shrinkWrap: true,
+//                        itemCount: snapshot.data!.docs.length,
+//                        itemBuilder: (context, index) {
+//                          return Center(
+//                            child: Column(
+//                              children: [
+//                                Text(snapshot.data!.docs[index]['message']),
+//                                SizedBox(height: 10,),
+//                                Text(snapshot.data!.docs[index]['time']),
+//                              ],
+//                            ),
+//
+//                          );
+//                        }) :
+//                    const Center(child: Text("no Data"),) :
+//                    snapshot.hasError ? const Text(
+//                        "error"
+//                    ) : const Center(child: CircularProgressIndicator(),);
+//                  })
+//       ],
+//         ),
+//       ),
+//     );
+//   }
+// }
