@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../view/home_screen.dart';
 import '../view/login_screen.dart';
 import '../view/register_screen.dart';
 import '../view/splash_screen.dart';
@@ -18,8 +19,8 @@ import 'app_route.dart';
         return MaterialPageRoute(builder: (_)=> LoginScreen() );
       case AppRoute.registerScreen :
         return MaterialPageRoute(builder: (_)=>const RegisterScreen() );
-      // case AppRoute.homeScreen :
-      //   return MaterialPageRoute(builder: (_)=>const HomeScreen() );
+      case AppRoute.homeScreen :
+        return MaterialPageRoute(builder: (_)=>const HomeScreen() );
       default :
         return null ;
     }

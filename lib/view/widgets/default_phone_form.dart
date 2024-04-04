@@ -1,5 +1,4 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DefaultPhoneField extends StatelessWidget{
@@ -9,7 +8,7 @@ class DefaultPhoneField extends StatelessWidget{
   Function(CountryCode)? onChange;
   String? hintText;
   String? labelText;
-  DefaultPhoneField({required this.controller,this.hintText,this.labelText,
+  DefaultPhoneField({super.key, required this.controller,this.hintText,this.labelText,
     required this.validator, this.keyBoardType,
     this.onChange
   });
@@ -24,7 +23,7 @@ class DefaultPhoneField extends StatelessWidget{
         prefixIcon: CountryCodePicker(
           onChanged:onChange ,
           initialSelection: 'EG',
-          favorite: ['+20','EG'],
+          favorite: const ['+20','EG'],
         ),
         hintText: hintText,
         labelText: labelText,

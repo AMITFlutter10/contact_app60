@@ -1,13 +1,12 @@
 import 'package:contact_app60/view/widgets/default_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../cubit/auth/auth_cubit.dart';
+import '../router/app_route.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -95,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   keyboardType: TextInputType.emailAddress,
                                   labelText: "Email",
                                   validator: (value) {
-                                    if (value!.length == 0) {
+                                    if (value!.isEmpty) {
                                       return "Email Can not be empty ";
                                     }
                                     if (!RegExp(
@@ -127,8 +126,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if(formKey.currentState!.validate()){
-                                    //
-                                  //    await  Navigator.of(context).pushNamedAndRemoveUntil( AppRoute.home, (route) => false);
+                                    await AuthCubit.get(context).loginByEmailAndPassword
+                                      (email: emailController.text,
+                                        password: passwordController.text);
+                                   Navigator.of(context).pushNamedAndRemoveUntil( AppRoute.homeScreen, (route) => false);
 
                                     }},
                                   style: ElevatedButton.styleFrom(

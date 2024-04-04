@@ -1,11 +1,12 @@
+import 'package:auth_buttons/auth_buttons.dart';
 import 'package:contact_app60/view/widgets/default_form_field.dart';
 import 'package:contact_app60/view/widgets/default_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 import '../cubit/auth/auth_cubit.dart';
-
-
+import '../router/app_route.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -25,7 +26,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    return  Scaffold (
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Colors.pink,
           body: SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -51,15 +55,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const DefaultText(
+                              DefaultText(
                                 text: "Register",
                                 //   title_Register.tr(),
-                                fontSize: 40,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.bold,
                                 // textColor: AppTheme.kPrimaryColor
                               ),
-                              const SizedBox(
-                                height: 20,
+                              SizedBox(
+                                height: 3.h,
                               ),
                               DefaultFormField(
                                   labelText: "name",
@@ -85,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       return "Email cannot be empty ";
                                     }
                                     if (!RegExp(
-                                        "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
+                                            "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
                                         .hasMatch(value)) {
                                       return ("please enter valid email");
                                     } else {
@@ -96,10 +100,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 20,
                               ),
                               DefaultFormField(
-                                labelText: "password",
-                                keyboardType: TextInputType.text,
-                                controller: passwordController,
-                              ),
+                                  labelText: "password",
+                                  keyboardType: TextInputType.text,
+                                  controller: passwordController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Email cannot be empty ";
+                                  //  }
+                                    // if (!RegExp(
+                                    //         "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9+_.-]+.[a-z]")
+                                    //     .hasMatch(value)) {
+                                    //   return ("please enter valid password");
+                                    // } else {
+                                    //  return null;
+                                    }
+                                  }),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -108,65 +123,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     if (formKey.currentState!.validate()) {
-                                      // AuthCubit.get(context).registerByEmailAndPassword(
-                                      //     email: emailController.text,
-                                      //     name: nameController.text,
-                                      //     password: passwordController.text);
-                                      // ScaffoldMessenger.of(context).showSnackBar(
-                                      //   const SnackBar(
-                                      //     content: Text(
-                                      //         'Successfully Register.You Can Chat Now'),
-                                      //     duration: Duration(seconds: 1),
-                                      //   ),
-                                      // );
-                                      //  Navigator.of(context).pop();
-                                      // Navigator.pushReplacementNamed(
-                                      //     context, AppRoute.home
-                                      // );
+                                      await   AuthCubit.get(context)
+                                          .registerByEmailAndPassword(
+                                              name: nameController.text,
+                                              email: emailController.text,
+                                              password:
+                                                  passwordController.text);
+                                       ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text('Successfully Register'),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                       Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          AppRoute.homeScreen,
+                                          (route) => false);
                                       // await cubit.getAllUser();
-                                    }
-                                  },
-                                  child:  DefaultText(text: "register"),
+                                    } },
                                   style: ElevatedButton.styleFrom(
                                     //primary: kSecondaryColor,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
                                   ),
+                                  child: const DefaultText(text: "register"),
                                 ),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     GoogleAuthButton(
-                              //       onPressed: () async {
-                              //         await AuthCubit.get(context).signInByGoogle();
-                              //         Navigator.pushNamed(context, AppRoute.home);
-                              //         // Navigator.push(
-                              //         //     context,
-                              //         //     MaterialPageRoute(
-                              //         //       builder: (context) => HomeScreen(),
-                              //         //     ));
-                              //       },
-                              //       style: const AuthButtonStyle(
-                              //         buttonType: AuthButtonType.icon,
-                              //         iconType: AuthIconType.secondary,
-                              //       ),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 20,
-                              //     ),
-                              //     FacebookAuthButton(
-                              //       onPressed: () {},
-                              //       style: const AuthButtonStyle(
-                              //         //textStyle: TextStyle(color: Colors.black12),
-                              //           buttonType: AuthButtonType.icon,
-                              //           iconType: AuthIconType.secondary),
-                              //     )
-                              //   ],
-                              // ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GoogleAuthButton(
+                                    onPressed: () async {
+                                      await AuthCubit.get(context).registerByGoogle();
+                                      Navigator.pushNamed(context, AppRoute.homeScreen);
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //       builder: (context) => HomeScreen(),
+                                      //     ));
+                                    },
+                                    style: const AuthButtonStyle(
+                                      buttonType: AuthButtonType.icon,
+                                      iconType: AuthIconType.secondary,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  FacebookAuthButton(
+                                    onPressed: () {},
+                                    style: const AuthButtonStyle(
+                                      //textStyle: TextStyle(color: Colors.black12),
+                                        buttonType: AuthButtonType.icon,
+                                        iconType: AuthIconType.secondary),
+                                  )
+                                ],
+                              ),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -226,6 +244,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         );
+      },
+    );
     //   },
     // );;
     // ),
