@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Container(
                       margin: const EdgeInsets.all(20),
                       width: w,
-                      height: h * 0.70,
+                      height: h * 0.80,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -188,18 +188,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              // ElevatedButton(
-                              //     onPressed: () async {
-                              //       await AuthCubit.get(context).uploadImage("cam");
-                              //     },
-                              //     style: ElevatedButton.styleFrom(
-                              //       shape: RoundedRectangleBorder(
-                              //           borderRadius: BorderRadius.circular(30)),
-                              //     ),
-                              //     child: const Text(
-                              //       "choose photo",
-                              //       style: TextStyle(color: Colors.white),
-                              //     ))
+                              // Select photo from cam or gallery
+                              ElevatedButton(
+                                  onPressed: () async {
+                                    await AuthCubit.get(context).uploadPhoto(cam: "ggfdjk");
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30)),
+                                  ),
+                                  child: const Text(
+                                    "choose photo",
+                                    style: TextStyle(color: Colors.white),
+                                  ))
                             ],
                           ),
                         ),

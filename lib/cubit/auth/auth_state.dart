@@ -8,3 +8,5 @@ class AuthRegisterByEmailState extends AuthState {}
 class AuthLoginByEmailState extends AuthState {}
 class AuthRegisterByGoogleState extends AuthState {}
 class AuthLoadingState extends AuthState {}
+
+class UploadPhotoState extends AuthState {}

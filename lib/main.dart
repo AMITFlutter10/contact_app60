@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                 create: (context) => AuthCubit(),
               ),
               BlocProvider(
-                create: (context) => ContactCubit(),
+                create: (context) => ContactCubit()..getContact()..getFavorite(),
               ),
             ],
             child: MaterialApp(
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               //     "register" : (context)=> const RegisterPage()
               //  },
               onGenerateRoute: onGenerateRouter,
-              initialRoute: AppRoute.registerScreen,
+              initialRoute: AppRoute.homeScreen,
             ),
           );
         }
