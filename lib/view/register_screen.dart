@@ -191,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               // Select photo from cam or gallery
                               ElevatedButton(
                                   onPressed: () async {
-                                    await AuthCubit.get(context).uploadPhoto(cam: "ggfdjk");
+                                    await AuthCubit.get(context).uploadImage( "ggfdjk");
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(

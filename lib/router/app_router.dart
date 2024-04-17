@@ -20,7 +20,7 @@ import 'app_route.dart';
       case AppRoute.registerScreen :
         return MaterialPageRoute(builder: (_)=>const RegisterScreen() );
       case AppRoute.homeScreen :
-        return MaterialPageRoute(builder: (_)=> HomeScreen() );
+        return MaterialPageRoute(builder: (_)=> const HomeScreen() );
       default :
         return null ;
     }

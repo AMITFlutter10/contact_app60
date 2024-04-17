@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../view/contact_screen.dart';
+import '../../view/favorite_screen.dart';
+
 part 'contact_state.dart';
 
 class ContactCubit extends Cubit<ContactState> {
@@ -23,8 +26,8 @@ insertContacts({required String name ,required String phone })async{
      "phone": phone,
      "type": "noFavorite"
    }).then((value) {
-     //getContacts();
-     print("Create New Contact");
+     getContact();
+     print("Create New Contact ");
      emit(InsertContactSuccessState());
    }).catchError((error){
      emit(InsertContactErrorState());
@@ -63,6 +66,7 @@ List<Map>favoriteList =[];
 //   3-error
 
 getContact()async{
+  contactsList.clear();
   emit(LoadingGetContactsState());
   await store.collection("Contacts").get().then((value){
      for(QueryDocumentSnapshot<Map<String,dynamic>> element in value.docs){
@@ -73,6 +77,7 @@ getContact()async{
 }
 
   getFavorite()async{
+    favoriteList =[];
     emit(LoadingGetFavoriteState());
     await store.collection("Contact").where("type",isEqualTo:"Favorite" ).get()
         .then((value){
@@ -90,12 +95,30 @@ getContact()async{
   }
 
   Icon floatingIcon=  const Icon(Icons.add);
+
   bool isBottomSheetShow = false;
   int currentIndex = 0;
+
 void changeBottomSheet({required bool isShown , required Icon icon}){
   isBottomSheetShow = isShown;
   floatingIcon =icon;
   emit(ChangeBottomState());
 
+}
+
+
+List<Widget>screens = [
+  ContactScreen(),
+  FavoriteScreen(),
+];
+
+List<String>title =[
+  "Contact",
+  "Favorite"
+];
+
+void changeButtonNavbar(int index ){
+  currentIndex = index;
+  emit(ChangeButtonNavbarState());
 }
 }

@@ -18,9 +18,13 @@ class UpdateFavoriteErrorState extends ContactState {}
 class LoadingGetContactsState extends ContactState {}
 class GetContactSuccessState extends ContactState {}
 
+class ErrorWhenGetDataState   extends ContactState {}
 class LoadingGetFavoriteState extends ContactState {}
 class GetFavoriteSuccessState extends ContactState {}
+class ErrorWhenGetFavoriteDataState   extends ContactState {}
 
 class DeleteSuccessState extends ContactState {}
 
 class ChangeBottomState extends ContactState {}
+
+class ChangeButtonNavbarState extends ContactState {}

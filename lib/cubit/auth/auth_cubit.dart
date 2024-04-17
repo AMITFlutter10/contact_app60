@@ -51,7 +51,6 @@ loginByEmailAndPassword({required String email,required String password })async{
 
 registerByGoogle ()async{
  await googleSignIn.signOut();
-
   emit(AuthLoadingState());
   GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
   GoogleSignInAuthentication? googleSignInAuthentication = await
@@ -71,21 +70,23 @@ registerByGoogle ()async{
   set(userModel.toMap());
   emit(AuthRegisterByGoogleState());
 }
+XFile? userImage;
+  uploadImage(String camera)async{
+    if(camera == "cam"){
+      userImage = (await picker.pickImage(source: ImageSource.camera))!;
+      await storage.ref().child('images/').child("${userModel.id} as camera.png")
+          .putFile(File(userImage!.path));
+      emit(UploadPhotoState());
+      return userImage?.readAsBytes();
+    }
+    else
+    {
+      userImage = (await picker.pickImage(source: ImageSource.gallery))!;
+      await storage.ref().child('images/').child("${userModel.id}as gallery")
+          .putFile(File(userImage!.path));
+      emit(UploadPhotoState());
+      return userImage?.readAsBytes();
+    }
 
-uploadPhoto({required String cam})async {
-  if (cam == "Camera") {
-    image = await picker.pickImage(source: ImageSource.camera);
-   await storage.ref().child("image/").child("${userModel.id} as Camera").
-    putFile(File(image!.path));
-   emit(UploadPhotoState());
-    return image!.readAsBytes();
-
-  } else {
-    image = await picker.pickImage(source: ImageSource.gallery);
-    await  storage.ref().child("image/").child("${userModel.id} as gallery").
-    putFile(File(image!.path));
-    emit(UploadPhotoState());
-    return image!.readAsBytes();
   }
-}
 }

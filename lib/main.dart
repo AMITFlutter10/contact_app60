@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                 create: (context) => AuthCubit(),
               ),
               BlocProvider(
-                create: (context) => ContactCubit()..getContact()..getFavorite(),
+                create: (context) => ContactCubit()..getFavorite()..getContact(),
               ),
             ],
             child: MaterialApp(
