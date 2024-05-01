@@ -41,7 +41,8 @@ updateContact({required int id, String? name , String? phone})async{
     "phone":phone,
     "type": "noFavorite"
   }).then((value) {
-    //getContact()
+    getContact();
+    getFavorite();
     emit(UpdateContactSuccessState());
   }).catchError((error){
     emit(UpdateContactErrorState());
@@ -53,6 +54,7 @@ updateFavorite({required int id ,required String type})async {
     'type': type,
   }).then((value) {
     getContact();
+    getFavorite();
     emit(UpdateFavoriteSuccessState());
   }).catchError((error) {
     emit(UpdateFavoriteErrorState());
@@ -66,7 +68,7 @@ List<Map>favoriteList =[];
 //   3-error
 
 getContact()async{
-  contactsList.clear();
+  contactsList=[];
   emit(LoadingGetContactsState());
   await store.collection("Contacts").get().then((value){
      for(QueryDocumentSnapshot<Map<String,dynamic>> element in value.docs){
@@ -90,6 +92,8 @@ getContact()async{
 
   deleteContact({required int id})async{
    await store.collection("Contacts").doc(id.toString()).delete().then((value) {
+     getContact();
+     getFavorite();
      emit(DeleteSuccessState());
    });
   }

@@ -1,3 +1,5 @@
+import 'package:contact_app60/enums.dart';
+import 'package:contact_app60/shared/cache_helper.dart';
 import 'package:contact_app60/view/widgets/default_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -13,9 +15,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: CacheHelper.getString(key: SharedKeys.email));
+  TextEditingController passwordController = TextEditingController(text: CacheHelper.getString(key: SharedKeys.password));
 
   var formKey = GlobalKey<FormState>();
 
@@ -129,8 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     await AuthCubit.get(context).loginByEmailAndPassword
                                       (email: emailController.text,
                                         password: passwordController.text);
+                                     CacheHelper.putString(key: SharedKeys.email, value: emailController.text,);
+                                     CacheHelper.putString(key: SharedKeys.password, value: passwordController.text,);
                                    Navigator.of(context).pushNamedAndRemoveUntil( AppRoute.homeScreen, (route) => false);
-
                                     }},
                                   style: ElevatedButton.styleFrom(
                                     // primary: kPrimaryColor,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../view/home_screen.dart';
 import '../view/login_screen.dart';
+import '../view/onboarding_screen.dart';
 import '../view/register_screen.dart';
 import '../view/splash_screen.dart';
 import 'app_route.dart';
@@ -13,14 +14,14 @@ import 'app_route.dart';
     switch(settings.name){
       case AppRoute.splashScreen :
         return MaterialPageRoute(builder: (_)=>const SplashScreen() );
-      // case AppRoute.onBoardingScreen :
-      //   return MaterialPageRoute(builder: (_)=> const OnBoarding() );
+       case AppRoute.onBoardingScreen :
+        return MaterialPageRoute(builder: (_)=>  OnBoardingScreen() );
         case AppRoute.loginScreen :
         return MaterialPageRoute(builder: (_)=> LoginScreen() );
       case AppRoute.registerScreen :
         return MaterialPageRoute(builder: (_)=>const RegisterScreen() );
       case AppRoute.homeScreen :
-        return MaterialPageRoute(builder: (_)=> const HomeScreen() );
+        return MaterialPageRoute(builder: (_)=>  HomeScreen() );
       default :
         return null ;
     }

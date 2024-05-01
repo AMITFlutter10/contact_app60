@@ -10,3 +10,7 @@ class AuthRegisterByGoogleState extends AuthState {}
 class AuthLoadingState extends AuthState {}
 
 class UploadPhotoState extends AuthState {}
+
+class LoadUsersSuccessfully extends AuthState{}
+
+class FailedToLoadUsers extends AuthState{}

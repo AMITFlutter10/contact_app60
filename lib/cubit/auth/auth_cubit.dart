@@ -89,4 +89,22 @@ XFile? userImage;
     }
 
   }
+
+List users =[];
+  getUsers() async {
+    try {
+      var fireStoreUsers = await store
+          .collection("profile")
+          .where('id', isNotEqualTo: userModel.id)
+          .get();
+      fireStoreUsers.docs.forEach((element) {
+        users.add(
+          UserModel.fromMap(element.data()),
+        );
+      });
+      emit(LoadUsersSuccessfully());
+    } catch (e) {
+      emit(FailedToLoadUsers());
+    }
+  }
 }
